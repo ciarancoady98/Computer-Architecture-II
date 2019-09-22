@@ -30,6 +30,12 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fib32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="t1Test.cpp">
@@ -43,5 +49,13 @@
     <ResourceCompile Include="t1Test.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="fib32.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="t1.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
   </ItemGroup>
 </Project>
