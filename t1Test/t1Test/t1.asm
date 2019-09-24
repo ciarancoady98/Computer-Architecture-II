@@ -29,23 +29,23 @@ gcd:        push    ebp             ; push frame pointer
             sub     esp, 8          ; space for local variables fi [ebp-4] and fj [ebp-8]
             mov     eax, [ebp+8]    ; eax = n
             cmp     eax, 1          ; if (n <= 1) ...
-            jle     fib_IA32a2      ; return n
+            jle     gcd2			; return n
             xor     ecx, ecx        ; ecx = 0   NB: mov [ebp-4], 0 NOT allowed
             mov     [ebp-4], ecx    ; fi = 0
             inc     ecx             ; ecx = 1   NB: mov [ebp-8], 1 NOT allowed
             mov     [ebp-8], ecx    ; fj = 1
-fib_IA32a0: mov     eax, 1          ; eax = 1
+gcd0:		mov     eax, 1          ; eax = 1
             cmp     [ebp+8], eax    ; while (n > 1)
-            jle     fib_IA32a1      ;
+            jle     gcd1			;
             mov     eax, [ebp-4]    ; eax = fi
             mov     ecx, [ebp-8]    ; ecx = fj
             add     eax, ecx        ; ebx = fi + fj
             mov     [ebp-4], ecx    ; fi = fj
             mov     [ebp-8], eax    ; fj = eax
             dec     DWORD PTR[ebp+8]; n--
-            jmp     fib_IA32a0      ;
-fib_IA32a1: mov     eax, [ebp-8]    ; eax = fj
-fib_IA32a2: mov     esp, ebp        ; restore esp
+            jmp     gcd0			;
+gcd1:		mov     eax, [ebp-8]    ; eax = fj
+gcd2:		mov     esp, ebp        ; restore esp
             pop     ebp             ; restore ebp
             ret     0               ; return
     
@@ -62,12 +62,12 @@ min:        push    ebp             ; push frame pointer
             sub     esp, 4          ; allocate space for local variable v
             mov     eax, [ebp+8]    ; mov a into eax
             cmp     eax, [ebp+12]   ; if (b < v)
-            jl      if1             ; v = b
+            jl      min1             ; v = b
             mov     eax, [ebp+12]   ; fi = 0
-min_if1:    cmp     eax, [ebp+16]   ; if (c < v)
-            jl      if2             ; v = c
+min1:		cmp     eax, [ebp+16]   ; if (c < v)
+            jl      min2             ; v = c
             mov     eax, [ebp+16]   ; fi = 0
-min_if2:    add     esp, 4          ; deallocate space for local variable
+min2:		add     esp, 4          ; deallocate space for local variable
             mov     esp, ebp        ; restore esp
             pop     ebp             ; restore ebp
             ret     0               ; return
@@ -80,17 +80,17 @@ p:          push    ebp             ; push frame pointer
             mov     ebp, esp        ; update ebp
             mov     eax, [ebp+8]    ; mov n into eax
             cmp     eax, 1          ; if (n <= 1)
-            jle     fib_IA32b2      ; return n
+            jle     p2				; return n
             xor     ecx, ecx        ; fi = 0
             mov     edx, 1          ; fj = 1
-fib_IA32b0: cmp     eax, 1          ; while (n > 1)
-            jle     fib_IA32b1      ;
+p0:			cmp     eax, 1          ; while (n > 1)
+            jle     p1				;
             add     ecx, edx        ; fi = fi + fj
             xchg    ecx, edx        ; swap fi and fj
             dec     eax             ; n--
-            jmp     fib_IA32b0      ;
-fib_IA32b1: mov     eax, edx        ; eax = fj
-fib_IA32b2: mov     esp, ebp        ; restore esp
+            jmp     p0				;
+p1:			mov     eax, edx        ; eax = fj
+p2:			mov     esp, ebp        ; restore esp
             pop     ebp             ; restore ebp
             ret     0               ; return
     

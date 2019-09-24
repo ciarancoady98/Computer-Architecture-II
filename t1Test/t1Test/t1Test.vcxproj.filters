@@ -51,11 +51,11 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="fib32.asm">
+    <None Include="fib32.asm">
       <Filter>Source Files</Filter>
-    </MASM>
-    <MASM Include="t1.asm">
+    </None>
+    <None Include="t1.asm">
       <Filter>Source Files</Filter>
-    </MASM>
+    </None>
   </ItemGroup>
 </Project>

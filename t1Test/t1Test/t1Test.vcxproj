@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{49E5188D-BB5D-4E03-8303-F53AB572CE3D}</ProjectGuid>
+    <ProjectGuid>{8F76A44B-5E5A-453F-B323-5853ADADFA05}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>t1Test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
@@ -58,7 +58,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -163,11 +162,10 @@
     <ResourceCompile Include="t1Test.rc" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="fib32.asm" />
-    <MASM Include="t1.asm" />
+    <None Include="fib32.asm" />
+    <None Include="t1.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>
