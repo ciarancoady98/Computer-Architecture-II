@@ -18,6 +18,12 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fib32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -26,5 +32,13 @@
     <ClCompile Include="t1Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="fib32.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="t1.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

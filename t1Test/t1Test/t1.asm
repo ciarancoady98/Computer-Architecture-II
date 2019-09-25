@@ -78,20 +78,16 @@ public      p              ; make sure function name is exported
 
 p:          push    ebp             ; push frame pointer
             mov     ebp, esp        ; update ebp
-            mov     eax, [ebp+8]    ; mov n into eax
-            cmp     eax, 1          ; if (n <= 1)
-            jle     p2				; return n
-            xor     ecx, ecx        ; fi = 0
-            mov     edx, 1          ; fj = 1
-p0:			cmp     eax, 1          ; while (n > 1)
-            jle     p1				;
-            add     ecx, edx        ; fi = fi + fj
-            xchg    ecx, edx        ; swap fi and fj
-            dec     eax             ; n--
-            jmp     p0				;
-p1:			mov     eax, edx        ; eax = fj
-p2:			mov     esp, ebp        ; restore esp
-            pop     ebp             ; restore ebp
+			push	[ebp+12]		; 
+			push	[ebp+8]
+			push	g
+			call	min
+			add		esp, 12
+			push	[ebp+20]
+			push	[ebp+16]
+			push	eax
+			call	min
+			add		esp,12
             ret     0               ; return
     
 end

@@ -152,7 +152,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="fib32.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="t1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -162,6 +164,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="t1Test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="fib32.asm" />
+    <MASM Include="t1.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
