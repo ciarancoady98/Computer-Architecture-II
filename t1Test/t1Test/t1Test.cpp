@@ -6,11 +6,12 @@
 // 02/10/17	first version
 //
 
-#include "stdafx.h"         // pre-compiled headers
+#include "pch.h"         // pre-compiled headers
 #include <iostream>         // cout
 #include "conio.h"          // _getch
 #include "t1.h"             //
 #include "fib32.h"          //
+#include "tchar.h"
 
 using namespace std;        // cout
 
@@ -58,7 +59,7 @@ int fib_IA32(int n) {
 //
 // check
 //
-void check(char *s, int v, int expected) {
+void check(const char *s, int v, int expected) {
 	cout << s << " = " << v;
 	if (v == expected) {
 		cout << " OK";
