@@ -26,26 +26,8 @@ public      gcd						; make sure function name is exported
 
 gcd:        push    ebp             ; push frame pointer
             mov     ebp, esp        ; update ebp
-            sub     esp, 8          ; space for local variables fi [ebp-4] and fj [ebp-8]
-            mov     eax, [ebp+8]    ; eax = n
-            cmp     eax, 1          ; if (n <= 1) ...
-            jle     gcd2			; return n
-            xor     ecx, ecx        ; ecx = 0   NB: mov [ebp-4], 0 NOT allowed
-            mov     [ebp-4], ecx    ; fi = 0
-            inc     ecx             ; ecx = 1   NB: mov [ebp-8], 1 NOT allowed
-            mov     [ebp-8], ecx    ; fj = 1
-gcd0:		mov     eax, 1          ; eax = 1
-            cmp     [ebp+8], eax    ; while (n > 1)
-            jle     gcd1			;
-            mov     eax, [ebp-4]    ; eax = fi
-            mov     ecx, [ebp-8]    ; ecx = fj
-            add     eax, ecx        ; ebx = fi + fj
-            mov     [ebp-4], ecx    ; fi = fj
-            mov     [ebp-8], eax    ; fj = eax
-            dec     DWORD PTR[ebp+8]; n--
-            jmp     gcd0			;
-gcd1:		mov     eax, [ebp-8]    ; eax = fj
-gcd2:		mov     esp, ebp        ; restore esp
+            
+            mov     esp, ebp        ; restore esp
             pop     ebp             ; restore ebp
             ret     0               ; return
     
