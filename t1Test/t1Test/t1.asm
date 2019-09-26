@@ -26,8 +26,19 @@ public      gcd						; make sure function name is exported
 
 gcd:        push    ebp             ; push frame pointer
             mov     ebp, esp        ; update ebp
-            
-            mov     esp, ebp        ; restore esp
+            xor		eax, eax		; set eax = 0
+			cmp		eax, [ebp+12]	;
+			je		gcd0			; if(b == 0)
+			mov		eax, [ebp+8]	; setup a for mod operation
+			cdq						; sign extend the upper portion of edx:eax for division
+			idiv	DWORD PTR [ebp+12]		; edx = a%b	
+			push	edx				; push param gcd(a%b);
+			push	[ebp+12]		; push param b
+			call	gcd
+			add		esp, 8			; remove params
+			jmp		gcd1			; return gcd(b, a%b)
+gcd0:		mov		eax, [ebp+8]	; return a
+gcd1:       mov     esp, ebp        ; restore esp
             pop     ebp             ; restore ebp
             ret     0               ; return
     
