@@ -22,7 +22,7 @@ g   DWORD 4                         ;declare global variable g initialised to 4
 ;
 ; 06/10/14  used ecx instead of ebx to initialise fi and fj as ecx volatile
 
-public      gcd               ; make sure function name is exported
+public      gcd						; make sure function name is exported
 
 gcd:        push    ebp             ; push frame pointer
             mov     ebp, esp        ; update ebp
@@ -55,7 +55,7 @@ gcd2:		mov     esp, ebp        ; restore esp
 ; makes better use of registers and instruction set
 ;
 
-public      min              ; make sure function name is exported
+public      min						; make sure function name is exported
 
 min:        push    ebp             ; push frame pointer
             mov     ebp, esp        ; update ebp
@@ -74,20 +74,23 @@ min2:		add     esp, 4          ; deallocate space for local variable
     
 
 
-public      p              ; make sure function name is exported
+public      p						; make sure function name is exported
 
 p:          push    ebp             ; push frame pointer
             mov     ebp, esp        ; update ebp
-			push	[ebp+12]		; 
-			push	[ebp+8]
-			push	g
+			push	[ebp+12]		; push j to stack
+			push	[ebp+8]			; push i to stack
+			push	g				; push g to stack
+			call	min	
+			add		esp, 12			; remove params from stack
+			push	[ebp+20]		; push l to the stack
+			push	[ebp+16]		; push k to the stack
+			push	eax				; push eax to the stack
 			call	min
-			add		esp, 12
-			push	[ebp+20]
-			push	[ebp+16]
-			push	eax
-			call	min
-			add		esp,12
+			add		esp,12			; remove params for stack
+			mov     esp, ebp        ; restore esp
+            pop     ebp             ; restore ebp
             ret     0               ; return
+      
     
 end
