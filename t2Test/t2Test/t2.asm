@@ -13,15 +13,6 @@ g	QWORD	4						;declare global variable g initialised to 4
 ; t2.asm
 ;
 
-;
-; example mixing C/C++ and x64 assembly language
-;
-; use stack for local variables
-;
-; simple mechanical code generation which doesn't make good use of the registers
-;
-; 06/10/14  used ecx instead of ebx to initialise fi and fj as ecx volatile
-
 public      gcd						; make sure function name is exported
 
 gcd:		push    rbp             ; push frame pointer
@@ -43,12 +34,6 @@ gcd0:		mov		rax, rcx		; return a
 gcd1:		mov		rsp, rbp		; restore stack pointer
 			pop		rbp				; restore frame pointer
 			ret     0               ; return
-    
-;
-; example mixing C/C++ and IA32 assembly language
-;
-; makes better use of registers and instruction set
-;
 
 public      min						; make sure function name is exported
 
@@ -90,7 +75,6 @@ fxp2 db 'a = %I64d b = %I64d c = %I64d d = %I64d e = %I64d sum = %I64d', 0AH, 00
 
 q:			push	rbp				; push frame pointer
 			mov		rbp, rsp		; update frame pointer
-			;function body
 			sub		rsp, 56			; allocate 48 bytes for printf
 			xor		rax, rax		; set rax to 0
 			add		rax, rcx		; 0 + a
@@ -114,6 +98,16 @@ q:			push	rbp				; push frame pointer
             pop     rbp             ; restore rbp
             ret     0               ; return
 
+public		qns						; make sure function name is exported
+
+fxp1 db 'qns', 0AH, 00H ; ASCII format string
+
+;	By not allocating shadow space we end up with a corrupted stack. This is due
+;	to printf expecting shadow space and thus uses it as if it were there, this
+;	results in the stack being corrupted when printf returns and the program crashes
+qns:		lea		rcx, fxp2		; put format string in param slot 1
+			call	printf
+			ret		0	
       
     
 end
