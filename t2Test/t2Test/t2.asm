@@ -58,20 +58,23 @@ min2:		ret     0               ; return
 
 public      p						; make sure function name is exported
 
-p:          push    ebp             ; push frame pointer
-            mov     ebp, esp        ; update ebp
-			push	[ebp+12]		; push j to stack
-			push	[ebp+8]			; push i to stack
-			push	g				; push g to stack
+p:          push    rbp             ; push frame pointer
+			mov		rbp, rsp		; update frame pointer
+			mov		[rbp+16], r8	; add k to the shadow space as it will get corrupted otherwise
+			mov		r9, rdx			; mov j into param slot 3
+			mov		rdx, rcx		; mov i into param slot 2
+			mov		g, rcx			; mov g into param slot 1
+			sub		rsp, 32			; allocate 32 bytes shadow space
 			call	min	
-			add		esp, 12			; remove params from stack
-			push	[ebp+20]		; push l to the stack
-			push	[ebp+16]		; push k to the stack
-			push	eax				; push eax to the stack
-			call	min
-			add		esp,12			; remove params for stack
-			mov     esp, ebp        ; restore esp
-            pop     ebp             ; restore ebp
+			add		rsp, 32			; deallocate 32 bytes shadow space
+			mov		r8, r9			; mov l into param slot 3
+			mov		rdx, [rbp+16]	; mov k into param slot 2
+			mov		rcx, rax		; mov min(g, i, j) into param slot 1
+			sub		rsp, 32			; allocate 32 bytes shadow space
+			call	min	
+			add		rsp, 32			; deallocate 32 bytes shadow space
+			mov     rsp, rbp        ; restore rsp
+            pop     rbp             ; restore rbp
             ret     0               ; return
       
     
