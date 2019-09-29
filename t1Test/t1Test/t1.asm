@@ -13,15 +13,6 @@ g   DWORD 4                         ;declare global variable g initialised to 4
 ; t1.asm
 ;
 
-;
-; example mixing C/C++ and IA32 assembly language
-;
-; use stack for local variables
-;
-; simple mechanical code generation which doesn't make good use of the registers
-;
-; 06/10/14  used ecx instead of ebx to initialise fi and fj as ecx volatile
-
 public      gcd						; make sure function name is exported
 
 gcd:        push    ebp             ; push frame pointer
@@ -41,12 +32,6 @@ gcd0:		mov		eax, [ebp+8]	; return a
 gcd1:       mov     esp, ebp        ; restore esp
             pop     ebp             ; restore ebp
             ret     0               ; return
-    
-;
-; example mixing C/C++ and IA32 assembly language
-;
-; makes better use of registers and instruction set
-;
 
 public      min						; make sure function name is exported
 
