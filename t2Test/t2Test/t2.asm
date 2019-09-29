@@ -81,7 +81,16 @@ p:          push    rbp             ; push frame pointer
 
 public		q						; make sure function name is exported
 
-q:			ret		0
+q:			push	rbp				; push frame pointer
+			mov		rbp, rsp		; update frame pointer
+			;function body
+			sub		rsp, 32			; allocate 32 bytes shadow space
+			call	printf	
+			add		rsp, 32			; deallocate 32 bytes shadow space
+			mov     rsp, rbp        ; restore rsp
+            pop     rbp             ; restore rbp
+            ret     0               ; return
+
       
     
 end
