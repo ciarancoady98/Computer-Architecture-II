@@ -24,20 +24,25 @@ g	QWORD	4						;declare global variable g initialised to 4
 
 public      gcd						; make sure function name is exported
 
-gcd:		xor		rax, rax		; set rax = 0
+gcd:		push    rbp             ; push frame pointer
+			mov		rbp, rsp		; update frame pointer
+			xor		rax, rax		; set rax = 0
 			cmp		rax, rdx		;
 			je		gcd0			; if(b == 0)
 			mov		rax, rcx		; setup a for mod operation
-			mov		[rsp+8], rdx	; save b as it will be corrupted by mod operation
+			mov		[rbp-16], rdx	; save b as it will be corrupted by mod operation
+			xor		rdx, rdx		; clear out top end of rdx:rax
 			cdq						; sign extend the upper portion of rdx:rax for division
-			idiv	QWORD PTR rdx	; rdx = a%b	
-			mov		rcx, [rsp+8]	; move b into param 1 slot from shadow space
+			idiv	QWORD PTR [rbp-16]	; rdx = a%b	
+			mov		rcx, [rbp-16]	; move b into param 1 slot from shadow space
 			sub		rsp, 32			; allocate 32 bytes of shadow space
 			call	gcd
 			add		rsp, 32			; remove shadow space
 			jmp		gcd1			; return gcd(b, a%b)
-gcd0:		mov		rax, rdx		; return a
-gcd1:       ret     0               ; return
+gcd0:		mov		rax, rcx		; return a
+gcd1:		mov		rsp, rbp		; restore stack pointer
+			pop		rbp				; restore frame pointer
+			ret     0               ; return
     
 ;
 ; example mixing C/C++ and IA32 assembly language
