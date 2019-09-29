@@ -76,6 +76,10 @@ p:          push    rbp             ; push frame pointer
 			mov     rsp, rbp        ; restore rsp
             pop     rbp             ; restore rbp
             ret     0               ; return
+
+public		q						; make sure function name is exported
+
+q:			ret		0
       
     
 end
