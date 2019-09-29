@@ -23,7 +23,7 @@ gcd:		push    rbp             ; push frame pointer
 			mov		rax, rcx		; setup a for mod operation
 			mov		[rbp-16], rdx	; save b as it will be corrupted by mod operation
 			xor		rdx, rdx		; clear out top end of rdx:rax
-			cdq						; sign extend the upper portion of rdx:rax for division
+			cqo						; sign extend the upper portion of rdx:rax for division
 			idiv	QWORD PTR [rbp-16]	; rdx = a%b	
 			mov		rcx, [rbp-16]	; move b into param 1 slot from shadow space
 			sub		rsp, 32			; allocate 32 bytes of shadow space
