@@ -61,9 +61,9 @@ public      p						; make sure function name is exported
 p:          push    rbp             ; push frame pointer
 			mov		rbp, rsp		; update frame pointer
 			mov		[rbp+16], r8	; add k to the shadow space as it will get corrupted otherwise
-			mov		r9, rdx			; mov j into param slot 3
+			mov		r8, rdx			; mov j into param slot 3
 			mov		rdx, rcx		; mov i into param slot 2
-			mov		g, rcx			; mov g into param slot 1
+			mov		rcx, g			; mov g into param slot 1
 			sub		rsp, 32			; allocate 32 bytes shadow space
 			call	min	
 			add		rsp, 32			; deallocate 32 bytes shadow space
