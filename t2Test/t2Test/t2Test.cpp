@@ -84,8 +84,6 @@ int _tmain(int argc, _TCHAR* argv[]) {
 	check("q(1, 2, 3, 4, 5)", q(1, 2, 3, 4, 5), 15);
 	check("q(-1, 2, -3, 4, -5)", q(-1, 2, -3, 4, -5), -3);
 
-	qns();
-
 	//check("qns()", qns(), 0);
 
 	cout << endl;
