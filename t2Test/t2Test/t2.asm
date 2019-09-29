@@ -45,17 +45,14 @@ gcd1:       ret     0               ; return
 
 public      min						; make sure function name is exported
 
-min:        mov     eax, [ep+8]    ; mov a into eax
-            cmp     eax, [ebp+12]   ; if (b < v)
-            jl      min1             ; v = b
-            mov     eax, [ebp+12]   ; fi = 0
-min1:		cmp     eax, [ebp+16]   ; if (c < v)
-            jl      min2             ; v = c
-            mov     eax, [ebp+16]   ; fi = 0
-min2:		add     esp, 4          ; deallocate space for local variable
-            mov     esp, ebp        ; restore esp
-            pop     ebp             ; restore ebp
-            ret     0               ; return
+min:        mov     rax, rcx	    ; mov a into eax
+            cmp     rax, rdx	    ; if (b < v)
+            jl      min1            ; v = b
+            mov     rax, rdx		; 
+min1:		cmp     rax, r8		    ; if (c < v)
+            jl      min2            ; v = c
+            mov     rax, r8		    ; 
+min2:		ret     0               ; return
     
 
 
