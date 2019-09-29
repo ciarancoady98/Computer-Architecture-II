@@ -81,12 +81,30 @@ p:          push    rbp             ; push frame pointer
 
 public		q						; make sure function name is exported
 
+fxp2 db 'a = %I64d b = %I64d c = %I64d d = %I64d e = %I64d sum = %I64d', 0AH, 00H ; ASCII format string
+
 q:			push	rbp				; push frame pointer
 			mov		rbp, rsp		; update frame pointer
 			;function body
-			sub		rsp, 32			; allocate 32 bytes shadow space
+			sub		rsp, 56			; allocate 48 bytes for printf
+			xor		rax, rax		; set rax to 0
+			add		rax, rcx		; 0 + a
+			add		rax, rdx		; a + b
+			add		rax, r8			; a + b + c
+			add		rax, r9			; a + b + c + d
+			add		rax, [rbp+48]	; a + b + c + d + e
+			mov		[rbp+16], rax	; save sum in shadow space
+			mov		[rsp+48], rax	; push sum as param for printf
+			mov		rax, [rbp+48]	; mov e into a reg
+			mov		[rsp+40], rax	; push e as a param for printf
+			mov		[rsp+32], r9	; push d as a param for printf
+			mov		r9, r8			; put c in param slot 4
+			mov		r8, rdx			; put b in param slot 3
+			mov		rdx, rcx		; put a in param slot 2
+			lea		rcx, fxp2		; put format string in param slot 1
 			call	printf	
-			add		rsp, 32			; deallocate 32 bytes shadow space
+			add		rsp, 48			; deallocate 32 bytes shadow space
+			mov		rax, [rbp+16]	; return sum
 			mov     rsp, rbp        ; restore rsp
             pop     rbp             ; restore rbp
             ret     0               ; return
