@@ -1,4 +1,6 @@
 option casemap:none                ; case sensitive
+includelib legacy_stdio_definitions.lib
+extrn printf:near
 
 .data                               ;start of a data section
 public g                            ;export variable g
