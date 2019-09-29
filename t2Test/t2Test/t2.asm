@@ -22,21 +22,20 @@ g	QWORD	4						;declare global variable g initialised to 4
 
 public      gcd						; make sure function name is exported
 
-gcd:		xor		eax, eax		; set eax = 0
-			cmp		eax, [ebp+12]	;
+gcd:		xor		rax, rax		; set rax = 0
+			cmp		rax, rdx		;
 			je		gcd0			; if(b == 0)
-			mov		eax, [ebp+8]	; setup a for mod operation
-			cdq						; sign extend the upper portion of edx:eax for division
-			idiv	QWORD PTR [ebp+12]		; edx = a%b	
-			push	edx				; push param gcd(a%b);
-			push	[ebp+12]		; push param b
+			mov		rax, rcx		; setup a for mod operation
+			mov		[rsp+8], rdx	; save b as it will be corrupted by mod operation
+			cdq						; sign extend the upper portion of rdx:rax for division
+			idiv	QWORD PTR rdx	; rdx = a%b	
+			mov		rcx, [rsp+8]	; move b into param 1 slot from shadow space
+			sub		rsp, 32			; allocate 32 bytes of shadow space
 			call	gcd
-			add		esp, 8			; remove params
+			add		rsp, 32			; remove shadow space
 			jmp		gcd1			; return gcd(b, a%b)
-gcd0:		mov		eax, [ebp+8]	; return a
-gcd1:       mov     esp, ebp        ; restore esp
-            pop     ebp             ; restore ebp
-            ret     0               ; return
+gcd0:		mov		rax, rdx		; return a
+gcd1:       ret     0               ; return
     
 ;
 ; example mixing C/C++ and IA32 assembly language
