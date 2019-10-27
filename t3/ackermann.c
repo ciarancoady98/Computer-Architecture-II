@@ -1,15 +1,28 @@
 #include <stdio.h>
 
-int WUSED = 0;
-int NWINDOWS = 0;
-int CWP = 0;
-int SWP = 0;
+int WUSED;
+int NWINDOWS;
+int CWP;
+int SWP;
+int proceedureCalls;
+int numberOfOverflows;
+int numberOfUnderflows;
+
+void resetGlobalVars(){
+    WUSED = 2;
+    NWINDOWS = 0;
+    CWP = 0;
+    SWP = 0;
+    proceedureCalls = 0;
+    numberOfOverflows = 0;
+    numberOfUnderflows = 0;
+}
 
 //Called before a function call
 void overflowCheck(){
     if(WUSED == NWINDOWS){
         //overflowTrapHandler();
-        printf("an overflow has occured");
+        numberOfOverflows++;
         SWP++;
     }
     else {
@@ -23,7 +36,7 @@ void underflowCheck(){
     if(WUSED == 2){
         SWP--;
         //underflowTrapHandler();
-        printf("an underflow has occured");
+        numberOfUnderflows++;
     }
     else {
         WUSED--;
@@ -33,6 +46,7 @@ void underflowCheck(){
 
 
 int ackermann(int x, int y){
+    proceedureCalls++;
     if(x==0){
         underflowCheck();
         return y+1;
@@ -55,11 +69,43 @@ int ackermann(int x, int y){
 
 //Driver program
 int main( int argc, const char* argv[] ) {
-    //Allocating a register set for the main program
-    WUSED = 1;
     //Test ackermann(3,6) with 6 register sets
+    printf("--------------------------------------------------------------\n");
+    resetGlobalVars();
     NWINDOWS = 6;
     overflowCheck();
     int result = ackermann(3, 6);
-    printf("The result is %d",result);
+    printf( "The result from ackermann(3,6) is %d\n"
+            "Given a RISC-I processor with %d register sets\n"
+            "Maximum register window depth %d\n"
+            "Number of register window Overflows %d\n"
+            "Number of register window Underflows %d\n"
+            , result, NWINDOWS, proceedureCalls, numberOfOverflows, numberOfUnderflows);
+
+    //Test ackermann(3,6) with 8 register sets
+    printf("--------------------------------------------------------------\n");
+    resetGlobalVars();
+    NWINDOWS = 8;
+    overflowCheck();
+    result = ackermann(3, 6);
+    printf( "The result from ackermann(3,6) is %d\n"
+            "Given a RISC-I processor with %d register sets\n"
+            "Maximum register window depth %d\n"
+            "Number of register window Overflows %d\n"
+            "Number of register window Underflows %d\n"
+            , result, NWINDOWS, proceedureCalls, numberOfOverflows, numberOfUnderflows);
+
+    //Test ackermann(3,6) with 16 register sets
+    printf("--------------------------------------------------------------\n");
+    resetGlobalVars();
+    NWINDOWS = 16;
+    overflowCheck();
+    result = ackermann(3, 6);
+    printf( "The result from ackermann(3,6) is %d\n"
+            "Given a RISC-I processor with %d register sets\n"
+            "Maximum register window depth %d\n"
+            "Number of register window Overflows %d\n"
+            "Number of register window Underflows %d\n"
+            , result, NWINDOWS, proceedureCalls, numberOfOverflows, numberOfUnderflows);
+    printf("--------------------------------------------------------------\n");
 }
