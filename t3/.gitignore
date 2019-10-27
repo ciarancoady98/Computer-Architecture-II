@@ -1,0 +1,6 @@
+# vscode files
+.vscode/
+
+# compiled program 
+ackermann
+a.out
