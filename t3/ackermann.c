@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 int WUSED;
 int NWINDOWS;
@@ -7,19 +8,26 @@ int SWP;
 int proceedureCalls;
 int numberOfOverflows;
 int numberOfUnderflows;
+int registerWindowDepth;
+int maxRegisterWindowDepth;
 
 void resetGlobalVars(){
-    WUSED = 2;
+    WUSED = 2; //there is always 2 valid register windows in the register file
     NWINDOWS = 0;
     CWP = 0;
     SWP = 0;
     proceedureCalls = 0;
     numberOfOverflows = 0;
     numberOfUnderflows = 0;
+    registerWindowDepth = 0;
+    maxRegisterWindowDepth = 0;
 }
 
 //Called before a function call
 void overflowCheck(){
+    registerWindowDepth++;
+    if(registerWindowDepth > maxRegisterWindowDepth)
+        maxRegisterWindowDepth = registerWindowDepth;
     if(WUSED == NWINDOWS){
         //overflowTrapHandler();
         numberOfOverflows++;
@@ -33,6 +41,7 @@ void overflowCheck(){
 
 //Called before a function return
 void underflowCheck(){
+    registerWindowDepth--;
     if(WUSED == 2){
         SWP--;
         //underflowTrapHandler();
@@ -67,45 +76,32 @@ int ackermann(int x, int y){
     }
 }
 
+void testAckermann(int a, int b, int numberOfWindows){
+    printf("--------------------------------------------------------------\n");
+    resetGlobalVars();
+    NWINDOWS = numberOfWindows;
+    overflowCheck();
+    clock_t begin = clock();
+    int result = ackermann(a, b);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf( "The result from ackermann(%d,%d) is %d\n"
+            "Given a RISC-I processor with %d register sets\n"
+            "Number of proceedure calls %d\n"
+            "Maximum register window depth %d\n"
+            "Number of register window Overflows %d\n"
+            "Number of register window Underflows %d\n"
+            "Execution time %fs\n"
+            , a, b, result, numberOfWindows, proceedureCalls, maxRegisterWindowDepth, numberOfOverflows, numberOfUnderflows, time_spent);
+    printf("--------------------------------------------------------------\n");
+}
+
 //Driver program
 int main( int argc, const char* argv[] ) {
     //Test ackermann(3,6) with 6 register sets
-    printf("--------------------------------------------------------------\n");
-    resetGlobalVars();
-    NWINDOWS = 6;
-    overflowCheck();
-    int result = ackermann(3, 6);
-    printf( "The result from ackermann(3,6) is %d\n"
-            "Given a RISC-I processor with %d register sets\n"
-            "Maximum register window depth %d\n"
-            "Number of register window Overflows %d\n"
-            "Number of register window Underflows %d\n"
-            , result, NWINDOWS, proceedureCalls, numberOfOverflows, numberOfUnderflows);
-
+    testAckermann(3, 6, 6);
     //Test ackermann(3,6) with 8 register sets
-    printf("--------------------------------------------------------------\n");
-    resetGlobalVars();
-    NWINDOWS = 8;
-    overflowCheck();
-    result = ackermann(3, 6);
-    printf( "The result from ackermann(3,6) is %d\n"
-            "Given a RISC-I processor with %d register sets\n"
-            "Maximum register window depth %d\n"
-            "Number of register window Overflows %d\n"
-            "Number of register window Underflows %d\n"
-            , result, NWINDOWS, proceedureCalls, numberOfOverflows, numberOfUnderflows);
-
+    testAckermann(3, 6, 8);
     //Test ackermann(3,6) with 16 register sets
-    printf("--------------------------------------------------------------\n");
-    resetGlobalVars();
-    NWINDOWS = 16;
-    overflowCheck();
-    result = ackermann(3, 6);
-    printf( "The result from ackermann(3,6) is %d\n"
-            "Given a RISC-I processor with %d register sets\n"
-            "Maximum register window depth %d\n"
-            "Number of register window Overflows %d\n"
-            "Number of register window Underflows %d\n"
-            , result, NWINDOWS, proceedureCalls, numberOfOverflows, numberOfUnderflows);
-    printf("--------------------------------------------------------------\n");
+    testAckermann(3, 6, 16);
 }
