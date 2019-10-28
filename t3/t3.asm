@@ -22,13 +22,13 @@ min1:   ret r25, 0                              ; return
 p:      add r9, r0, r10                         ; put g into param slot 1
         add r26, r0, r11                        ; put i into param slot 2
         add r27, r0, r12                        ; put j inot param slot 3
-        call min                                ; function call
-        add pc, r0, r25                         ; save return address in r25
+        call min, r25                           ; function call
+        xor r0, r0, r0                          ; Nop
         add r1, r0, r10                         ; put min(j, i, j) into param slot 1
         add r28, r0, r11                        ; put k in param slot 2
         add r29, r0, r12                        ; put l in param slot 3
-        call min                                ; function call
-        add pc, r0, r25                         ; save return address in r25
+        call min, r25                           ; function call
+        xor r0, r0, r0                          ; Nop
         ret r25, 0                              ; return 
         xor r0, r0, r0                          ; Nop
 
@@ -41,12 +41,12 @@ gcd:    sub r26, 0, r0 {C}                      ; x == 0
         ret r25, 0                              ; return y+1                              
 gcd0:   add r26, r0, r10                        ; put a in param slot 1
         add r27, r0, r11                        ; put b in param slot 2
-        call mod                                ;
-        add pc, r0, r25                         ; save return address in r25
+        call mod, r25                           ;
+        xor r0, r0, r0                          ; Nop
         add r27, r0, r10                        ; put b in param slot 1
         add r1, r0, r11                         ; put a % b in param slot 2
-        call gcd                                ;
-        add pc, r0, r25                         ; save return address in r25
+        call gcd, r25                           ;
+        xor r0, r0, r0                          ; Nop
         ret r25, 0                              ; return gcd(b, a % b)
         xor r0, r0, r0                          ; Nop
 
