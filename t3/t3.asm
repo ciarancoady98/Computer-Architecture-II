@@ -22,14 +22,14 @@ min1:   ret r25, 0                              ; return
 p:      add r9, r0, r10                         ; put g into param slot 1
         add r26, r0, r11                        ; put i into param slot 2
         add r27, r0, r12                        ; put j inot param slot 3
-        callr pc, #-14                          ; call relative?
+        call min                                ; function call
         add pc, r0, r25                         ; save return address in r25
         add r1, r0, r10                         ; put min(j, i, j) into param slot 1
         add r28, r0, r11                        ; put k in param slot 2
         add r29, r0, r12                        ; put l in param slot 3
-        callr pc, #-18                          ; call relative?
+        call min                                ; function call
         add pc, r0, r25                         ; save return address in r25
-        ret r25, 0                               ; return 
+        ret r25, 0                              ; return 
         xor r0, r0, r0                          ; Nop
 
 
