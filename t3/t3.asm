@@ -14,3 +14,36 @@ min0:   sub r28, r1, r0 {C}                     ; c < v
         add r28, r0, r1                         ; v = c 
 min1:   ret r25, 0                              ; return
         xor r0, r0, r0                          ; Nop
+
+
+// i = r26, j = r27, k = r28, l = r29           ; int p(int i, int j, int k, int l)
+p:      add r9, r0, r10                         ; put g into param slot 1
+        add r26, r0, r11                        ; put i into param slot 2
+        add r27, r0, r12                        ; put j inot param slot 3
+        callr pc, #-14                          ; call relative?
+        add pc, r0, r25                         ; save return address in r25
+        add r1, r0, r10                         ; put min(j, i, j) into param slot 1
+        add r28, r0, r11                        ; put k in param slot 2
+        add r29, r0, r12                        ; put l in param slot 3
+        callr pc, #-18                          ; call relative?
+        add pc, r0, r25                         ; save return address in r25
+        ret r25, 0                               ; return 
+        xor r0, r0, r0                          ; Nop
+
+
+// a = r26, b = r27 
+gcd:    sub r26, 0, r0 {C}                      ; x == 0
+        jne gcd0                                ;
+        xor r0, r0, r0                          ; Nop
+        add r27, #1, r1                         ; y+1
+        ret r25, 0                              ; return y+1                              ;
+gcd0:   add r26, r0, r10                        ; put a in param slot 1
+        add r27, r0, r11                        ; put b in param slot 2
+        call mod                                ;
+        add pc, r0, r25                         ; save return address in r25
+        add r27, r0, r10                        ; put b in param slot 1
+        add r1, r0, r11                         ; put a % b in param slot 2
+        call gcd                                ;
+        add pc, r0, r25                         ; save return address in r25
+        ret r25, 0                              ; return gcd(b, a % b)
+        xor r0, r0, r0                          ; Nop
