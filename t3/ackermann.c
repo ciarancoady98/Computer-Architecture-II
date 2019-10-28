@@ -96,6 +96,25 @@ void testAckermann(int a, int b, int numberOfWindows){
     printf("--------------------------------------------------------------\n");
 }
 
+void timeAckerman(int numberOfRuns, int a, int b){
+    printf("--------------------------------------------------------------\n");
+    if(numberOfRuns > 0){
+        double totalTimeSpent = 0;
+        for(int i = 0; i < numberOfRuns; i++){
+            clock_t begin = clock();
+            ackermann(a, b);
+            clock_t end = clock();
+            double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+            totalTimeSpent += time_spent;
+        }
+        double averageTimeSpent  = totalTimeSpent / numberOfRuns;
+        printf("The average run time of ackermann(3,6) is : %fs\n", averageTimeSpent);
+    }
+    else 
+        printf("please enter a positive number of runs, higher numbers yield more accurate results\n");
+    printf("--------------------------------------------------------------\n");
+}
+
 //Driver program
 int main( int argc, const char* argv[] ) {
     //Test ackermann(3,6) with 6 register sets
@@ -104,4 +123,6 @@ int main( int argc, const char* argv[] ) {
     testAckermann(3, 6, 8);
     //Test ackermann(3,6) with 16 register sets
     testAckermann(3, 6, 16);
+    //Get the average time it takes for ackerman(3,6) to run
+    timeAckerman(10000, 3, 6);
 }
