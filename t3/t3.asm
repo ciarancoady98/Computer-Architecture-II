@@ -38,7 +38,7 @@ gcd:    sub r26, 0, r0 {C}                      ; x == 0
         jne gcd0                                ;
         xor r0, r0, r0                          ; Nop
         add r27, #1, r1                         ; y+1
-        ret r25, 0                              ; return y+1                              ;
+        ret r25, 0                              ; return y+1                              
 gcd0:   add r26, r0, r10                        ; put a in param slot 1
         add r27, r0, r11                        ; put b in param slot 2
         call mod                                ;
