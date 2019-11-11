@@ -52,6 +52,7 @@ gcd0:   add r26, r0, r10                        ; put a in param slot 1
 
 Q2 ----------------------------------------------------------------------------------------------------
 //The solution to question 2 can be found in ackermann.c
+//With results shown in t3q2.png
 
 Q3 ----------------------------------------------------------------------------------------------------
 It takes 0.001160s to execute ackermann(3,6) on my machine
