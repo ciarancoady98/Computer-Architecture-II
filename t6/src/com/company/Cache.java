@@ -1,7 +1,4 @@
 package com.company;
-
-import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Cache {
@@ -58,7 +55,7 @@ public class Cache {
         int offset = address & this.offsetMask;
         int setNumber = (address & this.setMask) >> this.offsetBits;
         int addressTag = address >>> (this.offsetBits+this.numberOfSetsBits);
-        System.out.println("addressTag: " + addressTag + " setNumber: " + setNumber + " offset: " + offset);
+        //System.out.println("addressTag: " + addressTag + " setNumber: " + setNumber + " offset: " + offset);
         if(this.cache[setNumber].contains(addressTag)){
             this.cache[setNumber].remove((Object)addressTag);
             this.cache[setNumber].addFirst(addressTag);
