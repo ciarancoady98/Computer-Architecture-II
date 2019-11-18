@@ -17,7 +17,7 @@ public class Cache {
         this.L = L;
         this.N = N;
         this.K = K;
-        this.cache = new int[N][K+L];
+        this.cache = new int[N][L];
     }
 
     /*
